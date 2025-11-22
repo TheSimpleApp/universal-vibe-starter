@@ -1,0 +1,21 @@
+# 🧠 Vibe Coding Architecture
+
+## 1. Modular Strategy (CRITICAL)
+- **Services:** Integrations (Stripe, Mux, Twilio) live in `src/services/<name>`.
+- **Deletion Policy:** Code in `src/services` is optional. 
+- **Usage:** NEVER import 3rd party SDKs directly in UI. Import from `@/services/<name>`.
+- **Dynamic Imports:** When using optional services in Inngest, use `await import("@/services/...")` so the build doesn't break if the folder is deleted.
+
+## 2. Database (Nitro Flow)
+- **Single Truth:** Schema is in `src/db/schema.ts`.
+- **Migrations:** Do NOT create SQL files manually. Use `pnpm db:push` for local dev.
+- **RLS:** Always enable RLS on new tables.
+
+## 3. Server Actions
+- **Location:** `src/actions`.
+- **Pattern:** Inputs -> Zod Validate -> Auth Check -> DB Mutation -> RevalidatePath.
+- **No API Routes:** Do not use `src/app/api` unless it is a Webhook.
+
+## 4. Background Jobs (Inngest)
+- **Use for:** Emails, Video Processing, AI generation, Drip Campaigns.
+- **Location:** `src/inngest/functions`.
