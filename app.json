@@ -29,6 +29,7 @@
     "plugins": [
       "expo-router"
     ],
+    "newArchEnabled": true,
     "scheme": "universal-vibe"
   }
 }
