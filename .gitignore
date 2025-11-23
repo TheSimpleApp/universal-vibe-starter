@@ -39,3 +39,9 @@ yarn-error.log*
 # Supabase local
 /supabase/.branches
 /supabase/.temp
+
+# SQLite database (Fast Prototype Mode)
+dev.db
+dev.db-shm
+dev.db-wal
+migrations/

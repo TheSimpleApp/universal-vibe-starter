@@ -87,16 +87,33 @@ npm run setup
 
 **At the end, you can:**
 - Launch the dev server immediately
-- Access Supabase dashboard (if local)
 - Start coding right away!
+- Login with test@example.com / Test123 (mock auth)
+
+> **⚡ Recommended for Prototyping:** Select "Mock Auth + SQLite" during setup:
+> - ✅ Instant startup (< 30 seconds total)
+> - ✅ No Docker required
+> - ✅ No cloud account needed
+> - ✅ Works offline
+> - 🔄 Upgrade to Supabase Cloud later when ready for production
+> 
+> See [FAST_PROTOTYPE_MODE.md](./FAST_PROTOTYPE_MODE.md) for details.
+
+> **⚠️ Docker/Supabase Local:** Has known setup issues. **Use Supabase Cloud** if you need real auth (faster, no Docker).
 
 ### Step 3: Start Building
 
+**For Next.js (Web):**
 ```bash
 npm run dev
 ```
-
 Visit `http://localhost:3000` and you're ready to code! 🎉
+
+**For React Native / Expo (Mobile):**
+```bash
+npm run expo:start
+```
+Then scan the QR code with Expo Go app or press `i` for iOS simulator / `a` for Android emulator.
 
 > **💡 Pro Tip:** If you see TypeScript errors before running `npm install`, that's normal! See [TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md) for details.
 
@@ -104,8 +121,26 @@ Visit `http://localhost:3000` and you're ready to code! 🎉
 
 If you skip the wizard or want to do things manually:
 
+**Option 1: Cloud (Fastest - No Docker)**
 ```bash
-# Start Supabase locally
+# 1. Create free Supabase project at https://supabase.com
+# 2. Get credentials from Project Settings → API
+# 3. Add to .env.local:
+#    DATABASE_URL=postgresql://...
+#    NEXT_PUBLIC_SUPABASE_URL=https://...
+#    NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+#    SUPABASE_SERVICE_ROLE_KEY=...
+
+# 4. Push schema
+npm run db:push
+
+# 5. Start dev server
+npm run dev
+```
+
+**Option 2: Local (Requires Docker)**
+```bash
+# Start Supabase locally (first time: ~2-3 min download)
 npx supabase start
 
 # Push database schema
@@ -120,6 +155,9 @@ npm run dev
 
 ## 🏗️ Architecture Overview
 
+**Note:** The structure below shows both platforms. After running `npm run setup`, you'll select which platform(s) to use, and the wizard will configure the appropriate structure.
+
+### Next.js Structure (if selected)
 ```
 universal-vibe-starter/
 ├── src/
@@ -149,6 +187,29 @@ universal-vibe-starter/
 │   └── setup.ts               # Interactive onboarding wizard
 └── supabase/
     └── migrations/            # SQL migrations (auto-generated + RLS)
+```
+
+### React Native / Expo Structure (if selected)
+```
+universal-vibe-starter/
+├── app/                        # Expo Router (file-based routing)
+│   ├── (tabs)/                 # Tab navigation
+│   ├── index.tsx              # Entry point
+│   └── lib/                   # Expo-specific utilities
+├── components/                 # React Native components
+├── src/
+│   ├── components/            # Shared UI components
+│   │   ├── ui/                # Base components
+│   │   └── global/            # Global components
+│   ├── db/                    # Drizzle ORM (shared)
+│   ├── services/              # Modular integrations
+│   └── utils/                 # Utilities
+│       └── supabase/          # Supabase client
+├── app.json                   # Expo configuration
+├── babel.config.js            # Babel config (Reanimated plugin)
+├── tailwind.config.js         # NativeWind config
+└── supabase/
+    └── migrations/            # SQL migrations
 ```
 
 ## 🧩 Available Modules
@@ -191,6 +252,11 @@ universal-vibe-starter/
 - **ElevenLabs** (`src/services/elevenlabs`) - AI Voice
   - Text-to-speech generation
 
+- **OpenAI** (`src/services/openai`) - AI/LLM
+  - Chat completions
+  - Embeddings
+  - Image generation
+
 - **Inngest** (`src/inngest`) - Background jobs
   - Drip campaigns
   - Async processing
@@ -222,8 +288,8 @@ All tables have RLS enabled with user-scoped policies:
 ### Adding a New Feature
 
 1. **Database changes:** Edit `src/db/schema.ts`
-2. **Run:** `pnpm db:generate` (creates migration)
-3. **Apply:** `pnpm db:push` (local) or deploy migration (production)
+2. **Run:** `npm run db:push` (generates and applies migration automatically)
+3. **For production:** Migrations are in `supabase/migrations/` - deploy via Supabase dashboard
 
 ### Adding a New Service Module
 
@@ -292,6 +358,7 @@ All tables have RLS enabled with user-scoped policies:
 
 ## 📚 Additional Documentation
 
+- **[FAST_PROTOTYPE_MODE.md](./FAST_PROTOTYPE_MODE.md)** ⚡ - Fast prototyping with SQLite + Mock Auth (NO Docker!)
 - **[QUICK_START.md](./QUICK_START.md)** ⚡ - 30-second reference card (commands, fixes, tips)
 - **[VERSION_GUIDE.md](./VERSION_GUIDE.md)** - Version information, verification steps, and update strategy  
 - **[KNOWN_ISSUES.md](./KNOWN_ISSUES.md)** 🚨 - Known issues and workarounds (Windows build, etc.)
@@ -301,7 +368,10 @@ All tables have RLS enabled with user-scoped policies:
 
 ## ⚠️ Known Limitations
 
-- **Windows Production Builds**: Next.js 16 + Turbopack has a known bug preventing production builds on Windows. **Development works perfectly!** For builds, use Mac/Linux, CI/CD, or WSL. See [KNOWN_ISSUES.md](./KNOWN_ISSUES.md) for details and workarounds.
+- **Windows Production Builds**: Next.js 16 + Turbopack has a known bug preventing production builds on Windows. **Development works perfectly!** For builds, use Mac/Linux, CI/CD, or WSL.
+- **Supabase Local (Docker)**: Can be slow on first setup. **Use Mock Auth + SQLite for prototyping** or **Supabase Cloud for production** (both skip Docker).
+
+See [KNOWN_ISSUES.md](./KNOWN_ISSUES.md) for details and workarounds.
 
 ---
 
