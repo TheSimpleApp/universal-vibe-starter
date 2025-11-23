@@ -33,7 +33,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+# Note: next-env.d.ts stub is included for pre-installation support
+# Next.js will regenerate this file on first run
 
 # Supabase local
 /supabase/.branches

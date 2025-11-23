@@ -1,0 +1,11 @@
+# OpenAI Service Placeholder
+# 
+# This folder is reserved for OpenAI service integration.
+# Add your OpenAI service files here when implementing AI features.
+# 
+# Example structure:
+# - index.ts (main service exports)
+# - chat.ts (chat completions)
+# - embeddings.ts (embeddings)
+# - images.ts (image generation)
+

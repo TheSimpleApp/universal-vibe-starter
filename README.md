@@ -40,6 +40,8 @@ npm install
 npm run setup
 ```
 
+> **Note:** If you see TypeScript errors in your IDE before running `npm install`, this is normal! TypeScript needs installed dependencies to resolve types. All errors will disappear after installation. See [TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md) for details.
+
 **The wizard will:**
 1. ✅ **Check prerequisites** - Node.js, npm, Supabase CLI, Expo CLI (if needed)
 2. 🎯 **Select platform** - Choose Next.js, React Native, or both
@@ -62,6 +64,8 @@ npm run dev
 ```
 
 Visit `http://localhost:3000` and you're ready to code! 🎉
+
+> **💡 Pro Tip:** If you see TypeScript errors before running `npm install`, that's normal! See [TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md) for details.
 
 ### Manual Setup (If You Prefer)
 
