@@ -141,6 +141,27 @@ npm run start
 - Production server starts
 - App works in production mode
 
+## Known Issues & Workarounds
+
+### Peer Dependency Warning: next-themes
+
+**Issue:** `next-themes@0.3.0` shows peer dependency warning with React 19
+```
+npm error peer react@"^16.8 || ^17 || ^18" from next-themes@0.3.0
+```
+
+**Cause:** The package's peer dependency metadata hasn't been updated for React 19 yet
+
+**Solution:** ✅ Already handled!
+- `.npmrc` file includes `legacy-peer-deps=true`
+- This tells npm to ignore peer dependency conflicts
+- `next-themes` works perfectly with React 19 - just the metadata is outdated
+- No breaking changes, just a warning suppression
+
+**Status:** ✅ Works fine, no action needed from users
+
+---
+
 ## Troubleshooting
 
 ### Issue: Wrong Next.js version installed

@@ -63,9 +63,11 @@ git init     # Start fresh
 ### Step 2: Run the Onboarding Wizard
 
 ```bash
-npm install
+npm install  # Uses --legacy-peer-deps (see .npmrc)
 npm run setup
 ```
+
+> **Note:** This project uses `.npmrc` with `legacy-peer-deps=true` to handle peer dependency warnings from `next-themes` (doesn't support React 19 peer deps yet, but works fine).
 
 > **Note:** If you see TypeScript errors in your IDE before running `npm install`, this is normal! TypeScript needs installed dependencies to resolve types. All errors will disappear after installation. See [TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md) for details.
 
@@ -293,7 +295,12 @@ All tables have RLS enabled with user-scoped policies:
 - **[QUICK_START.md](./QUICK_START.md)** ⚡ - 30-second reference card (commands, fixes, tips)
 - **[VERSION_GUIDE.md](./VERSION_GUIDE.md)** - Version information, verification steps, and update strategy
 - **[TESTING.md](./TESTING.md)** - Comprehensive testing guide for template maintainers
+- **[KNOWN_ISSUES.md](./KNOWN_ISSUES.md)** 🚨 - Known issues and workarounds (Windows build, etc.)
 - **[TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md)** - TypeScript configuration and troubleshooting
+
+## ⚠️ Known Limitations
+
+- **Windows Production Builds**: Next.js 16 + Turbopack has a known bug preventing production builds on Windows. **Development works perfectly!** For builds, use Mac/Linux, CI/CD, or WSL. See [KNOWN_ISSUES.md](./KNOWN_ISSUES.md) for details and workarounds.
 
 ---
 
