@@ -293,9 +293,10 @@ All tables have RLS enabled with user-scoped policies:
 ## 📚 Additional Documentation
 
 - **[QUICK_START.md](./QUICK_START.md)** ⚡ - 30-second reference card (commands, fixes, tips)
-- **[VERSION_GUIDE.md](./VERSION_GUIDE.md)** - Version information, verification steps, and update strategy
-- **[TESTING.md](./TESTING.md)** - Comprehensive testing guide for template maintainers
+- **[VERSION_GUIDE.md](./VERSION_GUIDE.md)** - Version information, verification steps, and update strategy  
 - **[KNOWN_ISSUES.md](./KNOWN_ISSUES.md)** 🚨 - Known issues and workarounds (Windows build, etc.)
+- **[CHANGELOG.md](./CHANGELOG.md)** - Version history and release notes
+- **[TESTING.md](./TESTING.md)** - Testing guide for template maintainers (for contributors)
 - **[TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md)** - TypeScript configuration and troubleshooting
 
 ## ⚠️ Known Limitations
