@@ -1,11 +1,18 @@
 # 🌊 Universal Vibe Template
 
+> **⚡ New here?** Check [QUICK_START.md](./QUICK_START.md) for a 30-second reference card!
+
 This is a **dynamic, multi-platform starter** designed for high-speed "Vibe Coding" using the **Sculptor Method** - build the complete monolith, then carve away what you don't need.
 
 **Supports:**
-- ✅ **Next.js 16** (Web) - App Router, Server Components, Server Actions
+- ✅ **Next.js 16.0.3** (Web) - App Router, React 19, Server Components, Server Actions
 - ✅ **React Native / Expo** (Mobile) - Expo Router, NativeWind, Reanimated
 - ✅ **Both** - Choose one or both platforms during setup
+
+**Latest Stable Versions:**
+- Next.js: `16.0.3` (with React 19 support)
+- React: `19.0.0+` (stable as of December 2024)
+- Node.js: `20.18.0+` recommended (minimum 18.17.0)
 
 ## 🎯 The Carving Instructions (CRITICAL - Read First!)
 
@@ -21,6 +28,26 @@ This template uses an **interactive onboarding wizard** that guides you through 
 - ✅ **Less errors** - Pre-configured integrations work out of the box
 - ✅ **AI-friendly** - Cursor/AI understands the complete structure before carving
 - ✅ **Zero-config launch** - Wizard sets up Supabase, database, and environment automatically
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have:
+
+- **Node.js 18.17+** (20.18.0+ recommended for best performance)
+- **npm 9+** (comes with Node.js)
+- **Git** (for version control)
+- **Supabase CLI** (optional, wizard can install it for you)
+
+**Quick check:**
+```bash
+node --version  # Should be v20.x or v18.17+
+npm --version   # Should be 9.x or higher
+```
+
+**Using nvm?** This project includes `.nvmrc`:
+```bash
+nvm use  # Automatically uses Node.js 20.18.0
+```
 
 ## 🚀 Quick Start (The Magic)
 
@@ -43,7 +70,10 @@ npm run setup
 > **Note:** If you see TypeScript errors in your IDE before running `npm install`, this is normal! TypeScript needs installed dependencies to resolve types. All errors will disappear after installation. See [TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md) for details.
 
 **The wizard will:**
-1. ✅ **Check prerequisites** - Node.js, npm, Supabase CLI, Expo CLI (if needed)
+1. ✅ **Check prerequisites** - Node.js 18.17+, npm 9+, Supabase CLI
+   - Validates Node.js version (recommends 20+)
+   - Verifies npm version
+   - Checks Supabase CLI availability
 2. 🎯 **Select platform** - Choose Next.js, React Native, or both
 3. 📦 **Select modules** - Choose which services to keep (Stripe, Mux, Twilio, etc.)
 4. 🏗️ **Setup platform structure** - Scaffold Next.js and/or Expo app structure
@@ -51,6 +81,7 @@ npm run setup
 6. 🧹 **Clean up** - Remove unused modules automatically
 7. ⚙️ **Configure environment** - Generate `.env.local` with correct values
 8. 📊 **Setup database** - Push schema and optionally seed test data (Next.js only)
+9. 🔍 **Verify installations** - Confirms Next.js 16 and React 19 are properly installed
 
 **At the end, you can:**
 - Launch the dev server immediately
@@ -123,16 +154,20 @@ universal-vibe-starter/
 ### Core (Platform-Specific)
 
 **Next.js (Web):**
-- **Next.js 16** - App Router, Server Components, Server Actions
+- **Next.js 16.0.3** - App Router, Server Components, Server Actions, Turbopack
+- **React 19** - Latest stable with new features (Actions, useOptimistic, etc.)
 - **Supabase** - Auth, Database, RLS policies
 - **Drizzle ORM** - Type-safe database queries
 - **Tailwind CSS** - Styling with Shadcn UI
+- **Framer Motion** - Smooth animations
 
 **React Native (Mobile):**
-- **Expo** - React Native framework with Expo Router
+- **Expo SDK 52** - Latest stable (React Native 0.77)
+- **Expo Router** - File-based routing
 - **NativeWind** - Tailwind CSS for React Native
 - **Reanimated** - Smooth animations
 - **Supabase** - Auth and database (client-side)
+- **Note:** React Native 0.78+ required for React 19 support (planned for future update)
 
 ### Optional Modules (Can Be Removed)
 
@@ -219,10 +254,21 @@ All tables have RLS enabled with user-scoped policies:
 
 ## 🆘 Troubleshooting
 
+**Node.js version too old?**
+- Download latest from [nodejs.org](https://nodejs.org/)
+- Or use nvm: `nvm install 20 && nvm use 20`
+- This project includes `.nvmrc` for automatic version management
+
 **Setup wizard fails?**
-- Ensure Node.js 18+ is installed
+- Ensure Node.js 18.17+ is installed
 - Check that npm is available: `npm --version`
 - For Supabase CLI issues, install manually: `npm install -g supabase`
+
+**Wrong Next.js or React version installed?**
+- Check package.json has `next: "^16.0.3"` and `react: "^19.0.0"`
+- Delete `node_modules` and `package-lock.json`
+- Run `npm install` again
+- The setup wizard will verify versions after installation
 
 **Database connection fails?**
 - Ensure Supabase is running: `npx supabase status`
@@ -241,6 +287,13 @@ All tables have RLS enabled with user-scoped policies:
 - The wizard will offer to install it automatically
 - Or install manually: `npm install -g supabase`
 - Or use: `brew install supabase/tap/supabase` (macOS)
+
+## 📚 Additional Documentation
+
+- **[QUICK_START.md](./QUICK_START.md)** ⚡ - 30-second reference card (commands, fixes, tips)
+- **[VERSION_GUIDE.md](./VERSION_GUIDE.md)** - Version information, verification steps, and update strategy
+- **[TESTING.md](./TESTING.md)** - Comprehensive testing guide for template maintainers
+- **[TYPESCRIPT_SETUP.md](./TYPESCRIPT_SETUP.md)** - TypeScript configuration and troubleshooting
 
 ---
 

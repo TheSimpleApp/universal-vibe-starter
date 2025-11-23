@@ -50,6 +50,42 @@ function printStep(step: number, total: number, text: string) {
   console.log(chalk.gray('─'.repeat(50)));
 }
 
+async function verifyInstalledVersions() {
+  try {
+    // Check Next.js version
+    const nextVersion = execSync('npm list next --depth=0 2>/dev/null', { 
+      encoding: 'utf8',
+      cwd: ROOT 
+    }).match(/next@([^\s]+)/)?.[1] || 'unknown';
+    
+    // Check React version
+    const reactVersion = execSync('npm list react --depth=0 2>/dev/null', { 
+      encoding: 'utf8',
+      cwd: ROOT 
+    }).match(/react@([^\s]+)/)?.[1] || 'unknown';
+
+    const nextMajor = parseInt(nextVersion.split('.')[0]);
+    const reactMajor = parseInt(reactVersion.split('.')[0]);
+
+    if (nextMajor === 16) {
+      console.log(chalk.green(`  ✅ Next.js: v${nextVersion} (latest stable)`));
+    } else if (nextMajor === 15) {
+      console.log(chalk.yellow(`  ⚠️  Next.js: v${nextVersion} (outdated, v16 available)`));
+    } else {
+      console.log(chalk.yellow(`  ⚠️  Next.js: v${nextVersion}`));
+    }
+
+    if (reactMajor === 19) {
+      console.log(chalk.green(`  ✅ React: v${reactVersion} (latest stable)`));
+    } else {
+      console.log(chalk.yellow(`  ⚠️  React: v${reactVersion} (v19 recommended)`));
+    }
+
+  } catch (error) {
+    console.log(chalk.gray('  ℹ️  Package verification skipped (packages not yet installed)'));
+  }
+}
+
 // --- MAIN SETUP FLOW ---
 
 async function main() {
@@ -138,6 +174,12 @@ async function main() {
     console.log(chalk.yellow('\n⚠️  Database setup skipped (not using Supabase auth)\n'));
   }
 
+  // Verify installations (if packages are installed)
+  if (await fs.pathExists(path.join(ROOT, 'node_modules'))) {
+    console.log(chalk.cyan('\n🔍 Verifying installed package versions...\n'));
+    await verifyInstalledVersions();
+  }
+
   // Final Summary
   printHeader('✅ Setup Complete!');
   
@@ -203,22 +245,42 @@ async function checkPrerequisites() {
     allGood: true,
   };
 
-  console.log(chalk.gray('Checking required tools...\n'));
+  console.log(chalk.gray('Checking required tools and versions...\n'));
 
-  // Check Node.js
+  // Check Node.js version (require 18.17+, recommend 20+)
   if (results.node) {
-    const version = execSync('node --version', { encoding: 'utf8' }).trim();
-    console.log(chalk.green(`  ✅ Node.js: ${version}`));
+    const versionString = execSync('node --version', { encoding: 'utf8' }).trim();
+    const version = versionString.replace('v', '');
+    const major = parseInt(version.split('.')[0]);
+    
+    if (major >= 20) {
+      console.log(chalk.green(`  ✅ Node.js: ${versionString} (recommended)`));
+    } else if (major >= 18) {
+      console.log(chalk.yellow(`  ⚠️  Node.js: ${versionString} (works, but v20+ recommended)`));
+      console.log(chalk.gray('     Next.js 16 works best with Node.js 20+'));
+    } else {
+      console.log(chalk.red(`  ❌ Node.js: ${versionString} (too old)`));
+      console.log(chalk.yellow('     Next.js 16 requires Node.js 18.17 or higher'));
+      console.log(chalk.yellow('     Install from: https://nodejs.org/'));
+      results.allGood = false;
+    }
   } else {
     console.log(chalk.red('  ❌ Node.js: Not found'));
     console.log(chalk.yellow('     Install from: https://nodejs.org/'));
     results.allGood = false;
   }
 
-  // Check npm/pnpm
+  // Check npm version (require 9+)
   if (results.npm) {
-    const version = execSync('npm --version', { encoding: 'utf8' }).trim();
-    console.log(chalk.green(`  ✅ npm: ${version}`));
+    const versionString = execSync('npm --version', { encoding: 'utf8' }).trim();
+    const major = parseInt(versionString.split('.')[0]);
+    
+    if (major >= 9) {
+      console.log(chalk.green(`  ✅ npm: v${versionString}`));
+    } else {
+      console.log(chalk.yellow(`  ⚠️  npm: v${versionString} (outdated, v9+ recommended)`));
+      console.log(chalk.gray('     Update with: npm install -g npm@latest'));
+    }
   } else {
     console.log(chalk.red('  ❌ npm: Not found'));
     results.allGood = false;
@@ -233,6 +295,23 @@ async function checkPrerequisites() {
     console.log(chalk.gray('     Install with: npm install -g supabase'));
     console.log(chalk.gray('     Or: brew install supabase/tap/supabase'));
     console.log(chalk.gray('     We can install it for you if needed.\n'));
+  }
+
+  // Verify package.json versions
+  try {
+    const packageJson = await fs.readJson(path.join(ROOT, 'package.json'));
+    console.log(chalk.cyan('\n  📦 Package Versions:'));
+    console.log(chalk.gray(`     Next.js: ${packageJson.dependencies.next || 'not found'}`));
+    console.log(chalk.gray(`     React: ${packageJson.dependencies.react || 'not found'}`));
+    
+    // Validate versions
+    const nextVersion = packageJson.dependencies.next;
+    if (nextVersion && !nextVersion.includes('16')) {
+      console.log(chalk.red('  ❌ Next.js version mismatch! Expected 16.x'));
+      results.allGood = false;
+    }
+  } catch (error) {
+    console.log(chalk.yellow('  ⚠️  Could not verify package.json versions'));
   }
 
   return results;
