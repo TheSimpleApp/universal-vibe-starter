@@ -1,22 +1,28 @@
 # 🌊 Universal Vibe Template
 
-This is a modular Next.js 16 starter designed for high-speed "Vibe Coding" using the **Sculptor Method** - build the complete monolith, then carve away what you don't need.
+This is a **dynamic, multi-platform starter** designed for high-speed "Vibe Coding" using the **Sculptor Method** - build the complete monolith, then carve away what you don't need.
+
+**Supports:**
+- ✅ **Next.js 16** (Web) - App Router, Server Components, Server Actions
+- ✅ **React Native / Expo** (Mobile) - Expo Router, NativeWind, Reanimated
+- ✅ **Both** - Choose one or both platforms during setup
 
 ## 🎯 The Carving Instructions (CRITICAL - Read First!)
 
-This template uses an interactive setup script that lets you **remove unused modules** after cloning. This is the core "Vibe Coding" philosophy:
+This template uses an **interactive onboarding wizard** that guides you through the entire setup process. This is the core "Vibe Coding" philosophy:
 
 1. **Clone the template** (contains everything)
-2. **Run `pnpm setup`** - Interactive CLI asks which modules to keep
-3. **Unused modules are deleted** - Clean project with only what you need
+2. **Run `npm run setup`** - Interactive wizard handles everything
+3. **Launch immediately** - Your app is ready to go!
 
 ### Why This Approach?
 
 - ✅ **Faster than adding** - Deleting folders is instant, wiring up SDKs takes time
 - ✅ **Less errors** - Pre-configured integrations work out of the box
 - ✅ **AI-friendly** - Cursor/AI understands the complete structure before carving
+- ✅ **Zero-config launch** - Wizard sets up Supabase, database, and environment automatically
 
-## 🚀 Standard Operating Procedure (SOP)
+## 🚀 Quick Start (The Magic)
 
 ### Step 1: Clone & Detach
 
@@ -27,53 +33,52 @@ rm -rf .git  # Windows: rmdir /s /q .git
 git init     # Start fresh
 ```
 
-### Step 2: Carve Your Stack
-
-Run the interactive setup to remove unused modules:
+### Step 2: Run the Onboarding Wizard
 
 ```bash
-pnpm install
-pnpm setup
+npm install
+npm run setup
 ```
 
-**Select modules you need:**
-- ✅ Stripe (Payments) - Selected by default
-- ⬜ Mux (Video)
-- ⬜ Twilio (SMS/Voice)
-- ⬜ ElevenLabs (AI Voice)
-- ✅ Inngest (Background Jobs) - Selected by default
+**The wizard will:**
+1. ✅ **Check prerequisites** - Node.js, npm, Supabase CLI, Expo CLI (if needed)
+2. 🎯 **Select platform** - Choose Next.js, React Native, or both
+3. 📦 **Select modules** - Choose which services to keep (Stripe, Mux, Twilio, etc.)
+4. 🏗️ **Setup platform structure** - Scaffold Next.js and/or Expo app structure
+5. 🗄️ **Setup Supabase** - Local development (recommended) or cloud project
+6. 🧹 **Clean up** - Remove unused modules automatically
+7. ⚙️ **Configure environment** - Generate `.env.local` with correct values
+8. 📊 **Setup database** - Push schema and optionally seed test data (Next.js only)
 
-**What happens:**
-- Unselected service folders are deleted (`src/services/<name>`)
-- `.env.example` is cleaned (removes unused ENV sections)
-- `.env` file is generated with only selected modules
+**At the end, you can:**
+- Launch the dev server immediately
+- Access Supabase dashboard (if local)
+- Start coding right away!
 
-### Step 3: Start the Engine
+### Step 3: Start Building
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000` and you're ready to code! 🎉
+
+### Manual Setup (If You Prefer)
+
+If you skip the wizard or want to do things manually:
 
 ```bash
 # Start Supabase locally
 npx supabase start
 
-# Generate migration from TypeScript schema
-pnpm db:generate
+# Push database schema
+npm run db:push
 
-# Apply schema to database
-pnpm db:push
-
-# Seed test user (test@example.com / Testing123)
-pnpm db:reset
+# Seed test user (optional)
+npm run db:reset
 
 # Start dev server
-pnpm dev
-```
-
-### Step 4: Push to New Repo
-
-```bash
-git add .
-git commit -m "Initial Vibe Commit"
-git remote add origin https://github.com/yourusername/my-new-app.git
-git push -u origin main
+npm run dev
 ```
 
 ## 🏗️ Architecture Overview
@@ -104,18 +109,26 @@ universal-vibe-starter/
 │   └── utils/
 │       └── supabase/          # SSR clients (server, client, middleware)
 ├── scripts/
-│   └── setup.ts               # The "Carving Knife" CLI
+│   └── setup.ts               # Interactive onboarding wizard
 └── supabase/
     └── migrations/            # SQL migrations (auto-generated + RLS)
 ```
 
 ## 🧩 Available Modules
 
-### Core (Always Included)
+### Core (Platform-Specific)
+
+**Next.js (Web):**
 - **Next.js 16** - App Router, Server Components, Server Actions
 - **Supabase** - Auth, Database, RLS policies
 - **Drizzle ORM** - Type-safe database queries
 - **Tailwind CSS** - Styling with Shadcn UI
+
+**React Native (Mobile):**
+- **Expo** - React Native framework with Expo Router
+- **NativeWind** - Tailwind CSS for React Native
+- **Reanimated** - Smooth animations
+- **Supabase** - Auth and database (client-side)
 
 ### Optional Modules (Can Be Removed)
 
@@ -202,17 +215,28 @@ All tables have RLS enabled with user-scoped policies:
 
 ## 🆘 Troubleshooting
 
-**Setup script doesn't remove modules?**
-- Check that `.env.example` has proper start/end markers
-- Verify folder structure matches `src/services/<name>`
+**Setup wizard fails?**
+- Ensure Node.js 18+ is installed
+- Check that npm is available: `npm --version`
+- For Supabase CLI issues, install manually: `npm install -g supabase`
 
 **Database connection fails?**
 - Ensure Supabase is running: `npx supabase status`
 - Check `DATABASE_URL` in `.env.local`
+- Verify `.env.local` exists (wizard creates it automatically)
+
+**Setup script doesn't remove modules?**
+- Check that `.env.example` has proper start/end markers
+- Verify folder structure matches `src/services/<name>`
 
 **RLS policies blocking queries?**
 - Verify user is authenticated
 - Check policies in `supabase/migrations/20241122000001_rls_policies.sql`
+
+**Can't find Supabase CLI?**
+- The wizard will offer to install it automatically
+- Or install manually: `npm install -g supabase`
+- Or use: `brew install supabase/tap/supabase` (macOS)
 
 ---
 

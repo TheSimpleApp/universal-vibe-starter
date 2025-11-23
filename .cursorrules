@@ -1,5 +1,9 @@
 # 🧠 Vibe Coding Architecture
 
+## Auth Strategy
+**Provider:** supabase
+*Note: This will be updated during setup based on your auth provider choice.*
+
 ## 1. Modular Strategy (CRITICAL)
 - **Services:** Integrations (Stripe, Mux, Twilio) live in `src/services/<name>`.
 - **Deletion Policy:** Code in `src/services` is optional. 
